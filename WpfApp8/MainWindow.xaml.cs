@@ -1,13 +1,8 @@
-﻿using System.Text;
+using System;
+using System.Linq;
+using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfApp8
 {
@@ -17,6 +12,7 @@ namespace WpfApp8
         {
             InitializeComponent();
         }
+
         private void SprawdzCeneButton_Click(object sender, RoutedEventArgs e)
         {
             string cenaTekst = "";
@@ -37,15 +33,18 @@ namespace WpfApp8
                 cenaTekst = "Cena: 10 zł";
                 obrazSciezka = "https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/55/5515732/Konsola-przenosna-VALVE-Steam-Deck-512-GB-front-skos-01.jpg";
             }
+
             CenaLabel.Content = cenaTekst;
             Obrazek.Source = new BitmapImage(new Uri(obrazSciezka));
         }
+
         private void ZatwierdzButton_Click(object sender, RoutedEventArgs e)
         {
             string kodPocztowy = KodPocztowyTextBox.Text;
-            if (kodPocztowy.Length != 5)
+
+            if (!(kodPocztowy.Length == 5) || !kodPocztowy.All(char.IsDigit))
             {
-                MessageBox.Show("Nieprawidłowy kod pocztowy", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Nieprawidłowy kod pocztowy. Kod pocztowy powinien się składać z samych cyfr.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
